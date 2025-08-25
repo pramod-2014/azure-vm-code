@@ -5,6 +5,7 @@ module "resource_group" {
 }
 
 module "virtual_network_name" {
+  depends_on = [ var.resource_group_name ]
   source               = "../modules/azurerm_virtaul_network"
   virtual_network_name = var.virtual_network_name
   location             = var.location
@@ -33,6 +34,7 @@ module "nic" {
 
 
 module "virtual_mchine" {
+  depends_on = [ var.resource_group_name ]
   source                = "../modules/azurerm_virtual_mchine"
   virtual_mchine_name   = var.virtual_mchine_name
   resource_group_name   = var.resource_group_name
