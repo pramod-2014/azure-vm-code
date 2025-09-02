@@ -4,6 +4,7 @@ module "resource_group" {
   location            = var.location
 }
 
+
 module "virtual_network_name" {
   depends_on = [ var.resource_group_name ]
   source               = "../modules/azurerm_virtaul_network"
