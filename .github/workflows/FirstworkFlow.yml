@@ -3,47 +3,46 @@ name: Terraform Azure VM Deployment
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
-  my_job: 
-  name: deploy vm on azure cloud
-  runs-on: ubuntu-latest
+  deploy_vm:
+    name: Deploy VM on Azure Cloud
+    runs-on: ubuntu-latest
 
-      env:
+    env:
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      
-      steps:
+
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        
-        # Step 2: Setup Terraform
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.6
 
-        # Step 3: Terraform Init
       - name: Terraform Init
         run: terraform init
         working-directory: azure-vm-code
 
-      # Step 4: Terraform Format Check
-      - name: Terraform Format
+      - name: Terraform Format Check
         run: terraform fmt -check
+        working-directory: azure-vm-code
 
-      # Step 5: Terraform Validate
       - name: Terraform Validate
         run: terraform validate
+        working-directory: azure-vm-code
 
-      # Step 6: Terraform Plan
       - name: Terraform Plan
         run: terraform plan -out=tfplan
+        working-directory: azure-vm-code
 
-      # Step 7: Terraform Apply
-    - name: Terraform Apply
-      run: terraform apply -auto-approve tfplan
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
+        working-directory: azure-vm-code
+
       
