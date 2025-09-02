@@ -5,7 +5,7 @@ resource "azurerm_linux_virtual_machine" "example" {
   location            = var.location
   size                = "Standard_F2"
   admin_username      = var.admin_username
-  admin_password = "P@$$w0rd@1234"
+  admin_password = "P@$$w0rd@2014"
   disable_password_authentication = false
   network_interface_ids = [var.network_interface_id]
 
