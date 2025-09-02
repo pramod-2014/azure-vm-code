@@ -31,18 +31,18 @@ jobs:
 
       - name: Terraform Format Check
         run: terraform fmt -check
-        working-directory: azure-vm-code
+        working-directory: ./infracode
 
       - name: Terraform Validate
         run: terraform validate
-        working-directory: infracode
+        working-directory: ./infracode
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan
-        working-directory: infracode
+        working-directory: ./infracode
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
-        working-directory: infracode
+        working-directory: ./infracode
 
       
