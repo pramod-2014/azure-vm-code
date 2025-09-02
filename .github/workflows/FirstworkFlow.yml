@@ -27,22 +27,22 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory: infracode
+        working-directory: ./infracode/root
 
       - name: Terraform Format Check
         run: terraform fmt -check
-        working-directory: ./infracode
+        working-directory: ./infracode/root
 
       - name: Terraform Validate
         run: terraform validate
-        working-directory: ./infracode
+        working-directory: ./infracode/root
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan
-        working-directory: ./infracode
+        working-directory: ./infracode/root
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
-        working-directory: ./infracode
+        working-directory: ./infracode/root
 
       
