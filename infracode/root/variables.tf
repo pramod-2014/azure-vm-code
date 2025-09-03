@@ -17,7 +17,7 @@ variable "network_interface_ids" {}
 # network_interface variables
 variable "network_interface_name" {}
 
-variable "subscription_id" {}
-variable "client_id" {}
-variable "client_secret" {}
-variable "tenant_id" {}
+# variable "subscription_id" {}
+# variable "client_id" {}
+# variable "client_secret" {}
+# variable "tenant_id" {}
