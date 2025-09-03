@@ -10,11 +10,11 @@ jobs:
     name: Deploy VM on Azure Cloud
     runs-on: ubuntu-latest
 
-    en:
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+    env:
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
     steps:
       - name: Checkout repository
@@ -29,9 +29,8 @@ jobs:
         run: terraform init
         working-directory: ./infracode/root
 
-      # ✅ Auto format instead of just check
-      - name: Terraform Format
-        run: terraform fmt -recursive -diff
+      - name: Terraform Format Check
+        run: terraform fmt -check
         working-directory: ./infracode/root
 
       - name: Terraform Validate
