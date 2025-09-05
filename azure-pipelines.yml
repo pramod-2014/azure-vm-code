@@ -1,0 +1,36 @@
+trigger:
+- main  # ya jis branch se run karna hai
+
+pool:
+  name: Default  # tumhare self-hosted agent pool ka naam
+
+variables:
+  KUBECONFIG: $(HOME)/.kube/config  # self-hosted VM ke kubectl config path
+
+stages:
+- stage: DeployTest
+  jobs:
+  - job: Deploy
+    steps:
+    - script: |
+        echo "Deploying test pod to Kubernetes cluster"
+        kubectl apply -f - <<EOF
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: test-pod
+          namespace: default
+        spec:
+          containers:
+          - name: nginx
+            image: nginx:latest
+            ports:
+            - containerPort: 80
+        EOF
+      displayName: 'Deploy Test Pod'
+
+    - script: |
+        echo "Checking pod status"
+        kubectl get pods
+      displayName: 'Verify Pod'
+
