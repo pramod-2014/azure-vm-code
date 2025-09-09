@@ -9,9 +9,12 @@ subnet_name      = "demo_subnet"
 address_prefixes = ["10.0.2.0/24"]
 
 #virtual machine variabels
-virtual_mchine_name   = "demo-vm"
-admin_username        = "azuser"
+virtual_machine_name   = "demo-vm"
+
 network_interface_ids = "azurerm_network_interface.nic.id"
 
 # network_interface variables id
 network_interface_name = "demo_nic"
+
+#key vault variables
+key_vault_name = "demo-key-vault111"

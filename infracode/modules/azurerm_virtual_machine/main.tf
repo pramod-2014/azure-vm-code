@@ -1,11 +1,11 @@
 
 resource "azurerm_linux_virtual_machine" "example" {
-  name                = var.virtual_mchine_name
+  name                = var.virtual_machine_name
   resource_group_name = var.resource_group_name
   location            = var.location
   size                = "Standard_F2"
   admin_username      = var.admin_username
-  admin_password = "P@$$w0rd@2014"
+  admin_password =     var.admin_password
   disable_password_authentication = false
   network_interface_ids = [var.network_interface_id]
 
