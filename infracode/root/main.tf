@@ -29,11 +29,12 @@ module "nic" {
   location               = var.location
   resource_group_name    = var.resource_group_name
   subnet_id              = module.subnet.subnet_id
+    public_ip_id           = module.pip.public_ip_id
 }
 
 module "virtual_machine" {
-  depends_on           = [module.nic]  
-   source = "../modules/azurerm_virtual_machine"
+  depends_on           = [module.nic]
+  source               = "../modules/azurerm_virtual_machine"
   virtual_machine_name = var.virtual_machine_name
   resource_group_name  = var.resource_group_name
   location             = var.location
@@ -51,9 +52,19 @@ module "key_vault" {
 }
 
 module "secret" {
-    source      = "../modules/azurerm_key_vault_secret"
-  vm_username = var.admin_username
-  vm_password = var.admin_password
- key_vault_id = module.key_vault.key_vault_id
- depends_on     = [module.key_vault] 
+  source       = "../modules/azurerm_key_vault_secret"
+  vm_username  = var.admin_username
+  vm_password  = var.admin_password
+  key_vault_id = module.key_vault.key_vault_id
+  depends_on   = [module.key_vault]
 }
+
+module "pip" {
+  depends_on           = [module.resource_group]
+  source               = "../modules/azurerm_public_ip"
+  pip_name             = var.pip_name
+  location             = var.location
+  resource_group_name  = var.resource_group_name
+  
+}
+
