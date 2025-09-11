@@ -1,0 +1,15 @@
+trigger:
+- main   # ya jo bhi branch hai
+
+pool:
+  name: Default   # jis pool me tera self-hosted agent hai
+
+steps:
+- script: echo "Hello from my VMware Self-Hosted Agent!"
+  displayName: 'Run a test command'
+
+- script: uname -a
+  displayName: 'Check Linux kernel version'
+
+- script: hostname
+  displayName: 'Show VM hostname'
