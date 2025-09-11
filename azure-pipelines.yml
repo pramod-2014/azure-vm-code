@@ -1,15 +1,16 @@
 trigger:
-- main   # ya jo bhi branch hai
+- none   # ya jo bhi branch hai
 
 pool:
   name: Default   # jis pool me tera self-hosted agent hai
 
 steps:
-- script: echo "Hello from my VMware Self-Hosted Agent!"
-  displayName: 'Run a test command'
-
-- script: uname -a
-  displayName: 'Check Linux kernel version'
-
-- script: hostname
-  displayName: 'Show VM hostname'
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: "onprem-k8s"   # tera service connection ka naam
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      echo "Checking Azure connection..."
+      az group create --name vmware-test-rg --location eastus
+      echo "✅ Resource Group created successfully in Azure!"
