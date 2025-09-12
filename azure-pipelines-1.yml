@@ -10,6 +10,6 @@ steps:
 - task: Kubernetes@1
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'onprem-k8s'
+    kubernetesServiceEndpoint: 'OnPremKubeConnection'
     command: 'get'
     arguments: 'pods -A'
