@@ -1,0 +1,15 @@
+
+
+trigger:
+  - none
+
+pool: 
+  name: "Default"
+
+steps:
+- task: Kubernetes@1
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'onprem-k8s'
+    command: 'get'
+    arguments: 'pods -A'
