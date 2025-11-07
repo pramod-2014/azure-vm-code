@@ -28,7 +28,7 @@ jobs:
       - name: Terraform Init
         run: terraform init
         working-directory: ./infracode/root
-
+        
       # ✅ Auto format instead of just check
       - name: Terraform Format
         run: terraform fmt -recursive -diff
