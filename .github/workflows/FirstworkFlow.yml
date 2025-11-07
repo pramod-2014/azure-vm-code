@@ -15,6 +15,8 @@ jobs:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      TF_VAR_admin_username: ${{ secrets.TF_VAR_admin_username }}
+      TF_VAR_admin_password: ${{ secrets.TF_VAR_admin_password }}
 
     steps:
       - name: Checkout repository
