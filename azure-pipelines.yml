@@ -1,38 +1,59 @@
 trigger:
-- none   # ya jo bhi branch hai
+- none
 
-variables:
-- name: vm_username
-  value: $(vm_username)
-- name: vm_password
-  value: $(vm_password)
 pool:
   vmImage: ubuntu-latest
 
-
 stages:
-  - stage: terraformInit
-    displayName: terraform Init And Validate Stage
-    jobs:
-    - job: 
-      displayName: terraform init job
-      steps:
-      - task: TerraformTask@5
-        inputs:
-          provider: 'azurerm'
-          command: 'init'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/nfracode/root'
-          backendServiceArm: 'WebAppServiceConnection'
-          backendAzureRmResourceGroupName: 'aks-rg'
-          backendAzureRmStorageAccountName: 'devopssstate'
-          backendAzureRmContainerName: 'infrastroge'
-          backendAzureRmKey: 'dev.terraform.tfstate'
-      
-      - task: TerraformTask@5
-        inputs:
-          provider: 'azurerm'
-          command: 'plan'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/nfracode/root'
+- stage: Terraform
+  displayName: Terraform Init Plan Apply
+  jobs:
+  - job: TerraformJob
+    steps:
 
+    # Install Terraform
+    - task: TerraformInstaller@1
+      displayName: Install Terraform
+      inputs:
+        terraformVersion: '1.7.5'
 
+    # Terraform Init
+    - task: TerraformTask@5
+      displayName: Terraform Init
+      env:
+        vm_username: $(vm_username)
+        vm_password: $(vm_password)
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/nfracode/root'
+        backendServiceArm: 'WebAppServiceConnection'
+        backendAzureRmResourceGroupName: 'aks-rg'
+        backendAzureRmStorageAccountName: 'devopssstate'
+        backendAzureRmContainerName: 'infrastroge'
+        backendAzureRmKey: 'dev.terraform.tfstate'
 
+    # Terraform Plan
+    - task: TerraformTask@5
+      displayName: Terraform Plan
+      env:
+        TF_VAR_vm_username: $(vm_username)
+        TF_VAR_vm_password: $(vm_password)
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/nfracode/root'
+        environmentServiceNameAzureRM: 'WebAppServiceConnection'
+
+    # Terraform Apply (optional)
+    - task: TerraformTask@5
+      displayName: Terraform Apply
+      env:
+        TF_VAR_vm_username: $(vm_username)
+        TF_VAR_vm_password: $(vm_password)
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/nfracode/root'
+        environmentServiceNameAzureRM: 'WebAppServiceConnection'
+        args: '-auto-approve'
