@@ -1,8 +1,8 @@
 trigger:
 - none
 
-pool:
-  vmImage: ubuntu-latest
+pool: 
+  name: Azure Pipelines
 
 stages:
 - stage: Terraform
