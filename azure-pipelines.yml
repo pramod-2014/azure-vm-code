@@ -7,7 +7,7 @@ variables:
 - name: vm_password
   value: $(vm_password)
 pool:
-  vmImage: ubuntu
+  vmImage: ubuntu-latest
 
 
 stages:
