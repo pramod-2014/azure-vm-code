@@ -1,16 +1,38 @@
 trigger:
 - none   # ya jo bhi branch hai
 
+variables:
+- name: vm_username
+  value: $(vm_username)
+- name: vm_password
+  value: $(vm_password)
 pool:
-  name: Default   # jis pool me tera self-hosted agent hai
+  vmImage: ubuntu
 
-steps:
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: "onprem-k8s"   # tera service connection ka naam
-    scriptType: bash
-    scriptLocation: inlineScript
-    inlineScript: |
-      echo "Checking Azure connection..."
-      az group create --name vmware-test-rg --location eastus
-      echo "✅ Resource Group created successfully in Azure!"
+
+stages:
+  - stage: terraform init and validate 
+    displayName: terraform Init And Validate Stage
+    jobs:
+    - job: 
+      displayName: terraform init job
+      steps:
+      - task: TerraformTask@5
+        inputs:
+          provider: 'azurerm'
+          command: 'init'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/nfracode/root'
+          backendServiceArm: 'WebAppServiceConnection'
+          backendAzureRmResourceGroupName: 'aks-rg'
+          backendAzureRmStorageAccountName: 'devopssstate'
+          backendAzureRmContainerName: 'infrastroge'
+          backendAzureRmKey: 'dev.terraform.tfstate'
+      
+      - task: TerraformTask@5
+        inputs:
+          provider: 'azurerm'
+          command: 'plan'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/nfracode/root'
+
+
+
