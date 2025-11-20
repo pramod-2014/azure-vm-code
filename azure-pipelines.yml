@@ -34,8 +34,8 @@ stages:
     - task: TerraformTask@5
       displayName: Terraform Plan
       env:
-        TF_VAR_vm_username: $(vm_username)
-        TF_VAR_vm_password: $(vm_password)
+        vm_username: $(vm_username)
+        vm_password: $(vm_password)
       inputs:
         provider: 'azurerm'
         command: 'plan'
